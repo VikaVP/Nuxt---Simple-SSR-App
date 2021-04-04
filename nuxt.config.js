@@ -1,4 +1,5 @@
 const pkg = require('./package')
+const bodyParser = require('body-parser')
 
 module.exports = {
   mode: 'universal',
@@ -27,20 +28,27 @@ module.exports = {
   ** Global CSS
   */
   css: [
+    '~/assets/styles/main.css'
   ],
 
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~plugins/core-components.js', '~plugins/date-filter.js'
   ],
 
   /*
   ** Nuxt.js modules
   */
   modules: [
+    '@nuxtjs/axios',
   ],
 
+  axios: {
+    baseURL: process.env.BASE_URL || 'https://nuxt-blog-f879b-default-rtdb.firebaseio.com',
+    credentials: false
+  },
   /*
   ** Build configuration
   */
@@ -49,7 +57,18 @@ module.exports = {
     ** You can extend webpack config here
     */
     extend(config, ctx) {
-      
+
     }
-  }
+  },
+  env : { 
+    baseUrl : process.env.BASE_URL || 'https://nuxt-blog-f879b-default-rtdb.firebaseio.com',
+    fbAPIkey: 'AIzaSyDf-Ist2MQQ3ynhwHAHNPwrm_ZJkA4hW94'
+  },
+  // router: {
+  //   middleware: 'log'
+  // },
+  serverMiddleware: [
+    bodyParser.json(),
+    '~/api'
+  ]
 }
